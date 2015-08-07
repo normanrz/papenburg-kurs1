@@ -1,0 +1,27 @@
+import numpy as np
+import cv2
+
+def nothing(x):
+   pass
+
+cv2.namedWindow('frame3')
+cv2.createTrackbar('t', 'frame3', 0, 255, nothing)
+
+
+cap = cv2.VideoCapture(0)
+
+while(True):
+  ret, frame = cap.read()
+  hsv= cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+  grey= cv2.cvtColor (frame, cv2.COLOR_BGR2GRAY)
+  skin= cv2.inRange(hsv, np.array([200,200,200]), np.array([1000,1000,1000]))
+  threshold= cv2.getTrackbarPos('t', 'frame3') 
+  _,dst= cv2.threshold(grey, threshold, 200, cv2.THRESH_TOZERO)
+  
+  cv2.imshow('frame3', dst) 
+  if cv2.waitKey(1) & 0xFF == ord('q'):
+      break
+
+cap.release()
+cv2.destroyAllWindows()
+

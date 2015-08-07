@@ -1,0 +1,45 @@
+import numpy as np
+import cv2
+cv2.namedWindow('i')
+def nothing(x):
+    pass
+cap = cv2.VideoCapture(0)
+a1=0
+a2=30
+a3=340
+a4=360
+s1=66
+s2=220
+v1=35
+v2=205
+cv2.createTrackbar('a1','i',0,255,nothing)
+cv2.createTrackbar('a2','i',30,255,nothing)
+cv2.createTrackbar('a3','i',235,255,nothing)
+cv2.createTrackbar('a4','i',255,255,nothing)
+cv2.createTrackbar('s1','i',66,255,nothing)
+cv2.createTrackbar('s2','i',220,255,nothing)
+cv2.createTrackbar('v1','i',35,255,nothing)
+cv2.createTrackbar('v2','i',205,255,nothing)
+while(True):
+  a1 = cv2.getTrackbarPos('a1','i')
+  a2 = cv2.getTrackbarPos('a2','i')
+  a3 = cv2.getTrackbarPos('a3','i')
+  a4 = cv2.getTrackbarPos('a4','i')
+  s1 = cv2.getTrackbarPos('s1','i')
+  s2 = cv2.getTrackbarPos('s2','i')
+  v1 = cv2.getTrackbarPos('v1','i')
+  v2 = cv2.getTrackbarPos('v2','i')
+  ret, rt = cap.read()
+  frame = cv2.cvtColor(rt,cv2.COLOR_BGR2HSV)
+  frame = cv2.GaussianBlur(frame,(3,3),0)
+  frame1 = cv2.inRange(frame, (a1,s1,v1),(a2,s2,v2))
+  frame2 = cv2.inRange(frame, (a3,s1,v1),(a4,s2,v2))
+  frame = frame1 + frame2
+  frame = cv2.erode(frame,(8,8))
+  frame = cv2.dilate(frame,(12,12))
+  cv2.imshow('frame',frame)
+  if cv2.waitKey(1) & 0xFF == ord('q') :
+      brake
+
+cap.release()
+cv2.destroyAllWindows()

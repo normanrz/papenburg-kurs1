@@ -1,0 +1,31 @@
+import numpy as np
+import cv2
+
+cap = cv2.VideoCapture(0)
+upper = np.array([20, 255, 255])
+lower = np.array([0, 55, 0])
+blur = np.array([[1/9.0, 1/9.0, 1/9.0], [1/9.0, 1/9.0, 1/9.0], [1/9.0, 1/9.0, 1/9.0]])
+blur2 = np.ones((15,15), dtype=np.int)/100.0
+
+while(True):
+  ret, frame = cap.read()
+ 
+  frame2 = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+  frame2 = cv2.inRange(frame2, lower, upper)
+
+  frame3 = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+  frame3 = cv2.inRange(frame3, lower, upper)
+
+  frame[frame2 > 0] = [255, 255, 255]
+
+  frame3 = cv2.filter2D(frame2, -1, blur2)
+  
+  cv2.imshow('frame',frame)
+  cv2.imshow('frame2',frame2)
+  cv2.imshow('frame3',frame3)
+  
+  if cv2.waitKey(1) & 0xFF == ord('q'):
+    break
+
+cap.release()
+cv2.destroyAllWindows()

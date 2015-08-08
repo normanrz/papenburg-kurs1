@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from os import path
 
-CLASSIFIER_PATH = path.join(path.dirname(__file__), "haarcascade_frontalface_default.xml")
+CLASSIFIER_PATH = path.join("glasses.xml")
 faceCascade = cv2.CascadeClassifier(CLASSIFIER_PATH)
 
 def detect_face(image):

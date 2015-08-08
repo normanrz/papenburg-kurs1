@@ -1,0 +1,4 @@
+lightning invariant picture (eine meiner Quellen ;)):
+http://www.robots.ox.ac.uk/~mobile/Papers/2014ICRA_upcroft.pdf
+matlab code für hu moments (normale berechnung bei wikipedia):
+http://limitless-thoughts.blogspot.de/2011/05/hus-seven-moments-invariant-matlab-code.html

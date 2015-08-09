@@ -1,13 +1,10 @@
-import numpy as np
 import cv2
+import numpy as np
+from framework import run_video_capture
 
-cap = cv2.VideoCapture(0)
 
-while(True):
-  ret, frame = cap.read()
-  cv2.imshow('frame',frame)
-  if cv2.waitKey(1) & 0xFF == ord('q'):
-    break
+def func(frame):
+    frame = np.fliplr(frame)
+    cv2.imshow("frame", frame)
 
-cap.release()
-cv2.destroyAllWindows()
+run_video_capture(func)

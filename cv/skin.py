@@ -3,7 +3,7 @@ import numpy as np
 import argparse
 import cv2
 import math
- 
+
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-v", "--video",
@@ -35,34 +35,34 @@ while True:
 	ychan = frame[:,:,:].dot(np.array([0.299/255.0, 0.587/255.0, 0.114/255.0]))
 	ychan = ychan * math.pi
 	ychan = np.sin(ychan)
-	
+
 
 	ichan = frame[:,:,:].dot(np.array([0.596, -0.274, -0.322]))
 	michan = frame[:,:,:].dot(np.array([-0.596, 0.274, 0.322]))
-	
-	
+
+
 	if args.get("video") and not grabbed:
 		break
- 	
+
 	# resize the frame, convert it to the HSV color space,
 	# and determine the HSV pixel intensities that fall into
 	# the speicifed upper and lower boundaries
 	converted = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 	skinMask = cv2.inRange(converted, lower, upper)
- 
+
 	# apply a series of erosions and dilations to the mask
 	# using an elliptical kernel
 	kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (9, 9))
 	skinMask = cv2.erode(skinMask, kernel, iterations = 2)
 	skinMask = cv2.dilate(skinMask, kernel, iterations = 2)
- 
+
 	# blur the mask to help remove noise, then apply the
 	# mask to the frame
 	skinMask = cv2.GaussianBlur(skinMask, (3, 3), 0)
 	cv2.imshow("mask", skinMask)
 	contours,_ = cv2.findContours(skinMask, cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
 	skin = cv2.bitwise_and(frame, frame, mask = skinMask)
-	
+
 	areaArray = []
 
 	if(len(contours)>1):
@@ -84,14 +84,14 @@ while True:
 	cv2.imshow("images", frame)
 	cv2.imshow("lol", cv2.merge([ichan,ychan,michan]))
 	cv2.imshow("y", ychan)
-	
+
 
 
 
 	# if the 'q' key is pressed, stop the loop
 	if cv2.waitKey(1) & 0xFF == ord("q"):
 		break
- 
+
 # cleanup the camera and close any open windows
 camera.release()
 cv2.destroyAllWindows()

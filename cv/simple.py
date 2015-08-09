@@ -1,7 +1,10 @@
 import cv2
+from framework import run_video_capture
 
-cap = cv2.VideoCapture(0)
-ret, frame = cap.read()
-frame = cv2.bitwise_not(frame)
-cv2.imshow('frame', frame)
-cv2.imwrite('test.png', frame)
+
+def func(frame):
+    frame = cv2.bitwise_not(frame)
+    cv2.imshow("frame", frame)
+    cv2.imwrite("test.png", frame)
+
+run_video_capture(func)
